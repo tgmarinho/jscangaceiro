@@ -27,7 +27,7 @@ class NegociacaoController {
                 return item - indice % 2;
             }));
 
-        console.log(negociacao);
+        console.log(data);
 
     }
 }
