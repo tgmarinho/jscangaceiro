@@ -1,22 +1,28 @@
 class NegociacaoController {
 
-    adiciona(event) {
-        //cancelando a submmissao do formulario
-        event.preventDefault();
-
+    constructor() {
 
         // a ideia é que $ seja o querySelector
         //	realizando	o	bind,	$	mantém	document	como	seu	contexto this
         let $ = document.querySelector.bind(document);
 
         // buscando os elementos
-        let inputData = $('#data');
-        let inputQuantidade = $('#quantidade');
-        let inputValor = $('#valor');
+        this._inputData = $('#data');
+        this._inputQuantidade = $('#quantidade');
+        this._inputValor = $('#valor');
 
-        console.log(inputData.value);
-        console.log(parseInt(inputQuantidade.value));
-        console.log(parseFloat(inputValor.value));
+
+
+    }
+
+
+    adiciona(event) {
+        //cancelando a submmissao do formulario
+        event.preventDefault();
+
+        console.log(this._inputData.value);
+        console.log(parseInt(this._inputQuantidade.value));
+        console.log(parseFloat(this._inputValor.value));
 
     }
 }
