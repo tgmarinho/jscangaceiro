@@ -20,11 +20,12 @@ class NegociacaoController {
         //cancelando a submmissao do formulario
         event.preventDefault();
 
-        let negociacao = new Negociacao(
-            this._inputData.value,
-            this._inputQuantidade.value,
-            this._inputValor.value
-        );
+
+        let data = new Date(...this._inputData
+            .value.split('-')
+            .map(function(item, indice) {
+                return item - indice % 2;
+            }));
 
         console.log(negociacao);
 
