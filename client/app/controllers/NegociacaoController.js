@@ -11,10 +11,9 @@ class NegociacaoController {
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
         this._negociacoes = new Negociacoes();
-        // passamos para o construtor o seletor CSS de ID
         this._negociacoesView = new NegociacoesView('#negociacoes');
-        // atualizando a view
-        this._negociacoesView.update();
+        // recebe inicialmente o modelo que encapsula uma lista vazia
+        this._negociacoesView.update(this._negociacoes);
 
     }
 
@@ -23,6 +22,7 @@ class NegociacaoController {
 
         event.preventDefault();
         this._negociacoes.adiciona(this._criaNegociacao());
+        this._negociacoesView.update(this._negociacoes);
         this._limpaFormulario();
     }
 
