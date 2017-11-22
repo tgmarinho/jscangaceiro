@@ -1,15 +1,6 @@
-class NegociacoesView {
-
-    constructor(seletor) {
-        this._elemento = document.querySelector(seletor);
-    }
+class NegociacoesView extends View {
 
 
-    update(model) {
-
-        // repassa o model para this.template()
-        this._elemento.innerHTML = this.template(model);
-    }
 
     // PARÂMETRO AQUI!
     // deve retornar o template baseado no model
