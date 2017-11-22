@@ -14,6 +14,10 @@ class NegociacaoController {
         this._negociacoesView = new NegociacoesView('#negociacoes');
         // recebe inicialmente o modelo que encapsula uma lista vazia
         this._negociacoesView.update(this._negociacoes);
+        this._mensagem = new Mensagem();
+        // nova propriedade para mensagem na tela
+        this._mensagemView = new MensagemView('#mensagemView');
+        this._mensagemView.update(this._mensagem);
 
     }
 
@@ -22,7 +26,10 @@ class NegociacaoController {
 
         event.preventDefault();
         this._negociacoes.adiciona(this._criaNegociacao());
+        this._mensagem.texto = 'Negociação adicionada com sucesso!';
         this._negociacoesView.update(this._negociacoes);
+        // atualiza a view com o texto da mensagem que acabamos de atribuir
+        this._mensagemView.update(this._mensagem);
         this._limpaFormulario();
     }
 
