@@ -9,7 +9,7 @@ class NegociacaoController {
         this._inputValor = $('#valor');
 
         // estrategia de atualizacao da View
-        this._negociacoes = new Negociacoes(function(model) {
+        this._negociacoes = new Negociacoes(model => {
             console.log(this);
             this._negociacoesView.update(model);
         });
