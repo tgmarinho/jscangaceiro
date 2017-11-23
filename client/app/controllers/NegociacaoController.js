@@ -9,10 +9,18 @@ class NegociacaoController {
         this._inputValor = $('#valor');
 
         // estrategia de atualizacao da View
+        /*
+Um teste demonstra que nosso código funcionou, sendo muito menos verboso do que o anterior. Como isso é possível? Isto ocorre porque a arrow function não é apenas uma maneira sucinta de escrevermos uma função, ela também tem uma característica peculiar: o escopo de seu this é léxico (estático) em vez de dinâmico.
+
+O this de uma arrow function obtém seu valor do "código ao redor", mantendo esse valor independente do lugar onde é chamado. É por isso que o this da função da armadilha passada aponta para a instância de NegociacaoController.
+
+        */
         this._negociacoes = new Negociacoes(model => {
             console.log(this);
             this._negociacoesView.update(model);
         });
+
+
 
         this._negociacoesView = new NegociacoesView('#negociacoes');
         this._negociacoesView.update(this._negociacoes);
