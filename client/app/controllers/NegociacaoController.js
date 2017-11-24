@@ -2,28 +2,35 @@ class NegociacaoController {
 
     constructor() {
 
-
         const $ = document.querySelector.bind(document);
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
 
-        // estrategia de atualizacao da View
-        /*
-Um teste demonstra que nosso código funcionou, sendo muito menos verboso do que o anterior. Como isso é possível? Isto ocorre porque a arrow function não é apenas uma maneira sucinta de escrevermos uma função, ela também tem uma característica peculiar: o escopo de seu this é léxico (estático) em vez de dinâmico.
+        const self = this;
+        this._negociacoes = new Proxy(new Negociacoes(), {
 
-O this de uma arrow function obtém seu valor do "código ao redor", mantendo esse valor independente do lugar onde é chamado. É por isso que o this da função da armadilha passada aponta para a instância de NegociacaoController.
+            get(target, prop, receiver) {
 
-        */
-        this._negociacoes = new Negociacoes(model => {
-            console.log(this);
-            this._negociacoesView.update(model);
+                if (typeof(target[prop]) == typeof(Function) && ['adiciona', 'esvazia']
+                    .includes(prop)) {
+
+                    return function() {
+
+                        console.log(`"${prop}" disparou a armadilha`);
+                        target[prop].apply(target, arguments);
+                        self._negociacoesView.update(target);
+                    }
+
+                } else {
+                    return target[prop];
+                }
+            }
         });
-
-
 
         this._negociacoesView = new NegociacoesView('#negociacoes');
         this._negociacoesView.update(this._negociacoes);
+
         this._mensagem = new Mensagem();
         this._mensagemView = new MensagemView('#mensagemView');
         this._mensagemView.update(this._mensagem);
@@ -36,7 +43,7 @@ O this de uma arrow function obtém seu valor do "código ao redor", mantendo es
         event.preventDefault();
         this._negociacoes.adiciona(this._criaNegociacao());
         this._mensagem.texto = 'Negociação adicionada com sucesso!';
-        this._negociacoesView.update(this._negociacoes);
+        this._mensagemView.update(this._mensagem);
         this._limpaFormulario();
     }
 
@@ -51,16 +58,19 @@ O this de uma arrow function obtém seu valor do "código ao redor", mantendo es
     }
 
     _criaNegociacao() {
-        return new Negociacao(DateConverter.paraData(this._inputData.value),
+        return new Negociacao(
+            DateConverter.paraData(this._inputData.value),
             parseInt(this._inputQuantidade.value),
-            parseFloat(this._inputValor.value));
+            parseFloat(this._inputValor.value)
+        );
 
     }
 
     apaga() {
         this._negociacoes.esvazia();
-        this._negociacoesView.update(this._negociacoes);
         this._mensagem.texto = 'Negociações apagadas com sucesso';
+        this._mensagemView.update(this._mensagem);
+
     }
 
 

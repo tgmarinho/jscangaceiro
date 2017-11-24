@@ -1,16 +1,12 @@
 class Negociacoes {
 
-    constructor(armadilha) {
+    constructor() {
         this._negociacoes = [];
-        // congelando -> segurança na propriedade do objeto
-        this._armadilha = armadilha;
-        Object.freeze(this); // Aprendemos que através de Object.freeze podemos impedir novas atribuições às propriedades da instância de um objeto
+        Object.freeze(this);
     }
 
     adiciona(negociacao) {
         this._negociacoes.push(negociacao);
-        this._armadilha(this);
-
     }
 
 
@@ -37,7 +33,6 @@ class Negociacoes {
 
     esvazia() {
         this._negociacoes.length = 0;
-        this._armadilha(this);
     }
 
 }
