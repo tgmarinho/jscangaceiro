@@ -1,11 +1,10 @@
 // criou a instancia do controller
 const controller = new NegociacaoController();
 
-// associa o evento de submissao do form a chamada do metodo 'adiciona'app.js
-document
-    .querySelector('.form')
-    .addEventListener('submit', controller.adiciona.bind(controller));
+const $ = document.querySelector.bind(document);
 
-document
-    .querySelector('#botao-apaga')
-    .addEventListener('click', controller.apaga.bind(controller));
+$('.form').addEventListener('submit', controller.adiciona.bind(controller));
+
+$('#botao-apaga').addEventListener('click', controller.apaga.bind(controller));
+
+$('#botao-importa').addEventListener('click', controller.importaNegociacoes.bind(controller));
