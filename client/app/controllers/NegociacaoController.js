@@ -72,15 +72,27 @@ class NegociacaoController {
 
     importaNegociacoes() {
 
-        this._service.obterNegociacoesDaSemana()
-            .then(
-                negociacoes => {
-                    negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
-                    this._mensagem.texto = 'Negociacação importada com sucesso';
-                },
-                err => this._mensagem.texto = err
-            );
+        const negociacoes = [];
+
+        this._service
+            .obterNegociacoesDaSemana()
+            .then(semana => {
+                // usando spread operator
+                negociacoes.push(...semana);
+                // QUANDO RETORNAMOS UMA PROMISE, SEU RETORNO
+                // É ACESSÍVEL AO ENCADEAR UMA CHAMADA À THEN
+                return this._service.obtemNegociacoesDaSemanaAnterior();
+            })
+            .then(anterior => {
+                negociacoes.push(...anterior);
+                negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
+                this._mensagem.texto = 'Negociacação importada com sucesso';
+            })
+            .then(retrasada => {
+                negociacoes.push(...retrasada);
+                negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
+                this._mensagem.texto = 'Negociacação importada com sucesso';
+            })
+            .catch(err => this._mensagem.texto = err);
     }
-
-
 }
