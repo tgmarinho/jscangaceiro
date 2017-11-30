@@ -48,4 +48,10 @@ class Negociacao {
     }
 
 
+
+    equals(negociacao) {
+        return JSON.stringify(this) == JSON.stringify(negociacao);
+    }
+
+
 }
