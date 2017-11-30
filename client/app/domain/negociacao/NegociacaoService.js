@@ -4,7 +4,7 @@ class NegociacaoService {
     constructor() {
         this._http = new HttpService();
     }
-    obterNegociacoesDaSemana() {
+    obtemNegociacoesDaSemana() {
 
         return this._http
             .get('negociacoes/semana')

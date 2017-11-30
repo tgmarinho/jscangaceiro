@@ -72,27 +72,21 @@ class NegociacaoController {
 
     importaNegociacoes() {
 
-        const negociacoes = [];
+        Promise.all([
+                this._service.obtemNegociacoesDaSemana(),
+                this._service.obtemNegociacoesDaSemanaAnterior(),
+                this._service.obtemNegociacoesDaSemanaRetrasada()
+            ])
+            .then(periodo => {
 
-        this._service
-            .obterNegociacoesDaSemana()
-            .then(semana => {
-                // usando spread operator
-                negociacoes.push(...semana);
-                // QUANDO RETORNAMOS UMA PROMISE, SEU RETORNO
-                // É ACESSÍVEL AO ENCADEAR UMA CHAMADA À THEN
-                return this._service.obtemNegociacoesDaSemanaAnterior();
-            })
-            .then(anterior => {
-                negociacoes.push(...anterior);
-                negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
-                this._mensagem.texto = 'Negociacação importada com sucesso';
-            })
-            .then(retrasada => {
-                negociacoes.push(...retrasada);
-                negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
-                this._mensagem.texto = 'Negociacação importada com sucesso';
+                periodo
+                    .reduce((novoArray, item) => novoArray.concat(item), [])
+                    .forEach(negociacao => this._negociacoes.adiciona(negociacao));
+
+                this._mensagem.texto = 'Negociações importadas com sucesso';
             })
             .catch(err => this._mensagem.texto = err);
+
     }
+
 }
