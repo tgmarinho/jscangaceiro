@@ -1,42 +1,52 @@
-class ProxyFactory {
+System.register([], function (_export, _context) {
+    "use strict";
 
-    static create(objeto, props, armadilha) {
+    return {
+        setters: [],
+        execute: function () {
+            class ProxyFactory {
 
-        // recebe objeto como parâmetro
+                static create(objeto, props, armadilha) {
 
-        return new Proxy(objeto, {
+                    // recebe objeto como parâmetro
 
-            get(target, prop, receiver) {
+                    return new Proxy(objeto, {
 
-                if (ProxyFactory._ehFuncao(target[prop]) && props.includes(prop)) {
+                        get(target, prop, receiver) {
 
-                    return function() {
+                            if (ProxyFactory._ehFuncao(target[prop]) && props.includes(prop)) {
 
-                        console.log(`"${prop}" disparou a armadilha`);
-                        target[prop].apply(target, arguments);
-                        armadilha(target);
-                    }
+                                return function () {
 
-                } else {
-                    return target[prop];
+                                    console.log(`"${prop}" disparou a armadilha`);
+                                    target[prop].apply(target, arguments);
+                                    armadilha(target);
+                                };
+                            } else {
+                                return target[prop];
+                            }
+                        },
+
+                        set(target, prop, value, receiver) {
+
+                            const updated = Reflect.set(target, prop, value);
+
+                            if (props.includes(prop)) armadilha(target);
+
+                            return updated;
+                        }
+
+                    });
                 }
-            },
 
-            set(target, prop, value, receiver) {
+                static _ehFuncao(fn) {
+                    return typeof fn == typeof Function;
+                }
 
-                const updated = Reflect.set(target, prop, value);
-
-                if (props.includes(prop)) armadilha(target);
-
-                return updated;
             }
 
-        });
-
-    }
-
-    static _ehFuncao(fn) {
-        return typeof(fn) == typeof(Function);
-    }
-
-}
+            _export("ProxyFactory", ProxyFactory);
+        }
+    };
+});
+//# sourceMappingURL=ProxyFactory.js.map

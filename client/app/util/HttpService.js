@@ -1,33 +1,43 @@
-class HttpService {
+System.register([], function (_export, _context) {
+    "use strict";
 
-    get(url) {
+    return {
+        setters: [],
+        execute: function () {
+            class HttpService {
 
-        return new Promise((resolve, reject) => {
+                get(url) {
 
-            const xhr = new XMLHttpRequest();
+                    return new Promise((resolve, reject) => {
 
-            xhr.open('GET', url);
+                        const xhr = new XMLHttpRequest();
 
-            xhr.onreadystatechange = () => {
+                        xhr.open('GET', url);
 
-                if (xhr.readyState == 4) {
+                        xhr.onreadystatechange = () => {
 
-                    if (xhr.status == 200) {
-                        // PASSOU O RESULTADO PARA RESOLVE
-                        // JÁ PARSEADO!
-                        resolve(JSON.parse(xhr.responseText));
-                    } else {
-                        console.log(xhr.responseText);
-                        // PASSOU O ERRO PARA REJECT
-                        reject(xhr.responseText);
-                    }
+                            if (xhr.readyState == 4) {
+
+                                if (xhr.status == 200) {
+                                    // PASSOU O RESULTADO PARA RESOLVE
+                                    // JÁ PARSEADO!
+                                    resolve(JSON.parse(xhr.responseText));
+                                } else {
+                                    console.log(xhr.responseText);
+                                    // PASSOU O ERRO PARA REJECT
+                                    reject(xhr.responseText);
+                                }
+                            }
+                        };
+
+                        xhr.send(); // executa a requisição configurada
+                    });
                 }
-            };
 
-            xhr.send(); // executa a requisição configurada
+            }
 
-        });
-
-    }
-
-}
+            _export('HttpService', HttpService);
+        }
+    };
+});
+//# sourceMappingURL=HttpService.js.map
