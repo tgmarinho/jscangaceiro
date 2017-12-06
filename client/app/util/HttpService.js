@@ -4,7 +4,7 @@ System.register([], function (_export, _context) {
     return {
         setters: [],
         execute: function () {
-            class HttpService {
+            let HttpService = class HttpService {
 
                 get(url) {
 
@@ -34,7 +34,7 @@ System.register([], function (_export, _context) {
                     });
                 }
 
-            }
+            };
 
             _export('HttpService', HttpService);
         }

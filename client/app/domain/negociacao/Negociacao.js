@@ -4,7 +4,7 @@ System.register([], function (_export, _context) {
     return {
         setters: [],
         execute: function () {
-            class Negociacao {
+            let Negociacao = class Negociacao {
 
                 /**
                  * com _ antes do nome da variável indico por conveção que o
@@ -55,7 +55,7 @@ System.register([], function (_export, _context) {
                     return JSON.stringify(this) == JSON.stringify(negociacao);
                 }
 
-            }
+            };
 
             _export("Negociacao", Negociacao);
         }

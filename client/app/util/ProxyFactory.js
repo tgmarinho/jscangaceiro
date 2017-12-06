@@ -4,7 +4,7 @@ System.register([], function (_export, _context) {
     return {
         setters: [],
         execute: function () {
-            class ProxyFactory {
+            let ProxyFactory = class ProxyFactory {
 
                 static create(objeto, props, armadilha) {
 
@@ -43,7 +43,7 @@ System.register([], function (_export, _context) {
                     return typeof fn == typeof Function;
                 }
 
-            }
+            };
 
             _export("ProxyFactory", ProxyFactory);
         }

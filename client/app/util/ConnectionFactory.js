@@ -11,7 +11,7 @@ System.register([], function (_export, _context) {
             // VARIÁVEL QUE ARMAZENARÁ A FUNÇÃO ORIGINAL
             let close = null;
 
-            class ConnectionFactory {
+            let ConnectionFactory = class ConnectionFactory {
 
                 constructor() {
                     throw new Error('Não é possível criar instâncias dessa classe');
@@ -72,7 +72,7 @@ System.register([], function (_export, _context) {
                     }
                 }
 
-            }
+            };
 
             _export('ConnectionFactory', ConnectionFactory);
         }
