@@ -10,26 +10,14 @@ System.register(['./controllers/NegociacaoController.js', './domain/index.js'], 
         }],
         execute: function () {
 
-            // criou a instancia do controller
             const controller = new NegociacaoController();
 
-            const $ = document.querySelector.bind(document);
-
-            $('.form').addEventListener('submit', controller.adiciona.bind(controller));
-
-            $('#botao-apaga').addEventListener('click', controller.apaga.bind(controller));
-
-            $('#botao-importa').addEventListener('click', controller.importaNegociacoes.bind(controller));
+            // REMOVEU O ALIAS $ E AS ASSOCIAÇÕES DOS EVENTOS
 
             const negociacao = new Negociacao(new Date(), 1, 200);
-            // mudou para headers!
             const headers = new Headers();
             headers.set('Content-Type', 'application/json');
-
-            // nova constante
             const body = JSON.stringify(negociacao);
-
-            // nova constante
             const method = 'POST';
 
             const config = {
@@ -39,6 +27,8 @@ System.register(['./controllers/NegociacaoController.js', './domain/index.js'], 
             };
 
             fetch('/negociacoes', config).then(() => console.log('Dado enviado com sucesso'));
+
+            //Missão cumprida! Simplificamos bastante a maneira pela qual realizávamos a associação de um evento com os métodos de nosso controller.
         }
     };
 });

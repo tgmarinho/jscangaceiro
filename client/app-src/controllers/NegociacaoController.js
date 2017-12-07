@@ -42,7 +42,7 @@ export class NegociacaoController {
         }
 
     }
-
+    @bindEvent('submit', '.form')
     @debounce()
     async adiciona(event) {
 
@@ -85,6 +85,7 @@ export class NegociacaoController {
 
     }
 
+    bindEvent('click', '#botao-apaga')
     async apaga() {
 
         try {
@@ -98,6 +99,7 @@ export class NegociacaoController {
 
     }
 
+    @bindEvent('click', '#botao-importa')
     @debounce(1500)
     async importaNegociacoes() {
 
