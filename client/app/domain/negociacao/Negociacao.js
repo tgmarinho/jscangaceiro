@@ -9,7 +9,8 @@ System.register(['../../util/index.js'], function (_export, _context) {
         execute: function () {
             let Negociacao = class Negociacao {
 
-                constructor() {
+                constructor(_data = obrigatorio('data'), _quantidade = obrigatorio('quantidade'), _valor = obrigatorio('valor')) {
+
                     Object.assign(this, { _quantidade, _valor });
                     this._data = new Date(_data.getTime());
                     Object.freeze(this);
