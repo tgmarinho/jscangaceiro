@@ -1,16 +1,14 @@
-import { Negociacoes, NegociacaoService, Negociacao } from '../domain/index.js';
-import { NegociacoesView, MensagemView, Mensagem, DateConverter } from '../ui/index.js';
-import { getNegociacaoDao, Bind, getMessageException, debounce, controller, bindEvent } from '../util/index.js';
+import { Negociacoes, Negociacao } from '../domain';
+import { NegociacoesView, MensagemView, Mensagem, DateConverter } from '../ui';
+import { getNegociacaoDao, Bind, getExceptionMessage, debounce, controller, bindEvent } from '../util';
 
 @controller('#data', '#quantidade', '#valor')
 export class NegociacaoController {
 
-    constructor(inputData, inputQuantidade, inputValor) {
+    constructor(_inputData, _inputQuantidade, _inputValor) {
 
 
-        this._inputData = inputData;
-        this._inputQuantidade = inputQuantidade;
-        this._inputValor = inputValor;
+        Object.assign(this, { _inputData, _inputQuantidade, _inputValor })
 
         this._negociacoes = new Bind(
             new Negociacoes(),
@@ -22,8 +20,6 @@ export class NegociacaoController {
             new MensagemView('#mensagemView'),
             'texto'
         );
-
-        this._service = new NegociacaoService();
 
 
         this._init();
@@ -48,13 +44,9 @@ export class NegociacaoController {
 
         try {
 
-            event.preventDefault();
-
             const negociacao = this._criaNegociacao();
-
             const dao = await getNegociacaoDao();
             await dao.adiciona(negociacao);
-
             this._negociacoes.adiciona(negociacao);
             this._mensagem.texto = 'Negociação adicionada com sucesso!';
             this._limpaFormulario();
@@ -105,11 +97,22 @@ export class NegociacaoController {
 
         try {
 
-            const negociacoes = await this._service.obtemNegociacoesDoPeriodo();
+            // Lazy loading do módulo. 
+            // Importaremos { NegociacaoService } do módulo.
+
+            const { NegociacaoService } = await
+            import ('../domain/negociacao/NegociacaoService');
+
+            // criando uma nova instância da classe
+            const service = new NegociacaoService();
+
+            // MUDAMOS DE this._service para service
+
+            const negociacoes = await service.obtemNegociacoesDoPeriodo();
             console.log(negociacoes);
-            negociacoes.
-            filter(novaNegociacao => !this._negociacoes.paraArray().some(negociacaoExistente =>
-                    novaNegociacao.equals(negociacaoExistente)))
+            negociacoes.filter(novaNegociacao =>
+                    !this._negociacoes.paraArray().some(negociacaoExistente =>
+                        novaNegociacao.equals(negociacaoExistente)))
                 .forEach(negociacao => this._negociacoes.adiciona(negociacao));
             this._mensagem.texto = 'Negociações do período importadas com sucesso';
         } catch (err) {
