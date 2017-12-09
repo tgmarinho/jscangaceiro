@@ -1,9 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import 'bootstrap/js/modal.js';
 import '../css/meucss.css';
 
 import { NegociacaoController } from './controllers/NegociacaoController.js';
 import { Negociacao } from './domain/index.js';
+
+$('h1').on('click', () => alert('Foi clicado!'));
+
+// provando a existência da função!
+console.log('Função adicionada pelo bootstrap:');
+console.log($('h1').modal);
 
 const controller = new NegociacaoController();
 
